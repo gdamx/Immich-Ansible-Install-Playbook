@@ -1,0 +1,1 @@
+Change dock1 to whatever your username is. It will pull the immich image and env file and place them in a folder in the homedir called immich. It will then run docker compose up -d and voila. It works
