@@ -1,0 +1,34 @@
+
+
+- hosts: "*"
+  become: yes
+  vars:
+    username: "dock1"
+  tasks: 
+  - name: Creates directory
+    ansible.builtin.file:
+      path: /home/{{username}}/immich
+      state: directory
+  - name: Creates directory
+    ansible.builtin.file:
+      path: /home/{{username}}/Photos
+      state: directory
+  - name: Get Compose file
+    get_url:
+      url: https://github.com/immich-app/immich/releases/latest/download/docker-compose.yml
+      dest: /home/{{username}}/immich
+  - name: Get enviroment file
+    ansible.builtin.shell:
+      chdir: /home/{{username}}/immich/
+      cmd: wget -O .env https://github.com/immich-app/immich/releases/latest/download/example.env 
+  - name: Run Docker Compose up
+    ansible.builtin.shell:
+      chdir: /home/{{username}}/immich/
+      cmd: docker compose up -d
+    
+
+      
+
+
+
+#ansible-playbook /home/joey/update.yml --user dock1 -i /home/joey/hosts --ask-become-pass
