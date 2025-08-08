@@ -1,0 +1,20 @@
+- name: Update Immich
+  hosts: immich
+  become: true
+  tasks:
+  - name: Stop Immich
+    community.docker.docker_compose_v2:
+      project_src: /home/joey/docker/
+      state: stopped
+    register: output
+  - name: Pull New Immich Image
+    community.docker.docker_compose_v2_pull:
+      project_src: /home/joey/docker
+  - name: Clean OLD Docker Images
+    community.docker.docker_prune:
+      images: true
+  - name: Start Immich
+    community.docker.docker_compose_v2:
+      project_src: /home/joey/docker/
+      state: present
+    register: output

@@ -1,0 +1,8 @@
+- name: Update Linux
+  hosts: ubuntu
+  become: true
+  tasks:
+  - name: Update Packages
+    ansible.builtin.apt:
+      name: "*"
+      state: latest
